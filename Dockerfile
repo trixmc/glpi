@@ -4,12 +4,20 @@ MAINTAINER Olexander Kutsenko <olexander.kutsenko@gmail.com>
 #install
 RUN apt-get update
 RUN apt-get upgrade -y
-RUN apt-get install -y git git-core nano screen curl unzip mc
+RUN apt-get install -y git git-core nano screen curl unzip mc apache2 
+
+#PHP
+RUN apt-get install -y wget php5 php5-gd php5-mysql
+RUN sudo rm /etc/php5/apache2/php.ini
+COPY configs/php.ini /etc/php5/apache2/php.ini
+RUN chown -R www-data:www-data /var/www/html
+RUN cmod -R 770 /var/www/html
+RUN service apache2 restart
 
 #MySQL install + password
 RUN echo "mysql-server mysql-server/root_password password root" | debconf-set-selections
 RUN echo "mysql-server mysql-server/root_password_again password root" | debconf-set-selections
-RUN sudo apt-get  install -y mysql-server mysql-client
+RUN sudo apt-get  install -y mysql-server mysql-client 
 
 # SSH service
 RUN sudo apt-get install -y openssh-server openssh-client
