@@ -16,6 +16,10 @@ RUN echo "mysql-server mysql-server/root_password password root" | debconf-set-s
 RUN echo "mysql-server mysql-server/root_password_again password root" | debconf-set-selections
 RUN sudo apt-get  install -y mysql-server mysql-client 
 
+#GLPI download
+RUN cd /var/www/ && wget https://github.com/glpi-project/glpi/releases/download/0.90.1/glpi-0.90.1.tar.gz
+
+
 # SSH service
 RUN sudo apt-get install -y openssh-server openssh-client
 RUN sudo mkdir /var/run/sshd
